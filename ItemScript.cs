@@ -9,14 +9,6 @@ public class ItemScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnBeginDrag(PointerEventData eventData)
     {
         transform.GetComponent<Image>().raycastTarget = false;
-        if (transform.GetChild(1).gameObject.activeSelf)
-        {
-            transform.GetChild(1).gameObject.SetActive(false);
-        }
-        else
-        {
-            transform.GetChild(1).gameObject.SetActive(true);
-        }
     }
     public void OnDrag(PointerEventData eventData)
     {
