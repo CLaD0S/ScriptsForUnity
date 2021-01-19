@@ -20,7 +20,7 @@ public class CharacterController_Script : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.D))
         {
-            GetComponent<Rigidbody2D>().AddForce(Vector2.down);
+            GetComponent<Rigidbody2D>().AddForce(Vector2.right);
         }
     }
 }
