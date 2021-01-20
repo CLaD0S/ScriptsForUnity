@@ -1,10 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class ItemScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     [SerializeField]
     protected GameObject itemForWorld;
@@ -12,7 +11,12 @@ public class ItemScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     protected string itemName;
     [SerializeField]
     protected string description;
-
+    [SerializeField]
+    public EItemType ItemType { get; private set; }
+    public enum EItemType
+    {
+        all, sword, body, helmet
+    }
     private void Awake()
     {
         if (itemName != "") { gameObject.name = itemName; } else { Debug.LogWarning("itemName = null"); }
@@ -41,11 +45,19 @@ public class ItemScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     {
         StopCoroutine("SlowShow");
         transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(1).gameObject.SetActive(false);
     }
 
     private IEnumerator SlowShow()
     {
         yield return new WaitForSeconds(1);
         transform.GetChild(0).gameObject.SetActive(true);
+    }
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (eventData.button.ToString() != "Left")
+        {
+            transform.GetChild(1).gameObject.SetActive(true);
+        }
     }
 }
