@@ -1,9 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterController_Script : MonoBehaviour
 {
+    [Header("Характеристики здоровья")]
+    [SerializeField]
+    private int _hitPoint;
+    [SerializeField]
+    private int _maxHitPoint;
+    [SerializeField]
+    private int _regenHitPoint;
+    [SerializeField]
+    private Text textLabel;
+
     private void Update()
     {
         if (Input.GetKey(KeyCode.W))
@@ -22,5 +33,10 @@ public class CharacterController_Script : MonoBehaviour
         {
             GetComponent<Rigidbody2D>().AddForce(Vector2.right);
         }
+    }
+
+    public void ChangeHitPoint()
+    {
+        textLabel.text = _hitPoint.ToString();
     }
 }
