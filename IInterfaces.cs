@@ -14,7 +14,7 @@ namespace IInterfaces
     }
     interface IUsed
     {
-        void Used();
+        void Useding(GameObject UsedChar);
     }
     interface IDestroing
     {

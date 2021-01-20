@@ -12,7 +12,7 @@ public class ItemScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     [SerializeField]
     protected string description;
     [SerializeField]
-    public EItemType ItemType { get; private set; }
+    public EItemType ItemType;
     public enum EItemType
     {
         all, sword, body, helmet

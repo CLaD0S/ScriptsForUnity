@@ -52,4 +52,9 @@ public class Base_Items : MonoBehaviour, IPickUp, IPickOut, IUsed, IDestroing
             $"Предмет: {_name}," +
             $"Количество использований: {_countUsed},";
     }
+
+    public void Useding(GameObject UsedChar)
+    {
+        throw new System.NotImplementedException();
+    }
 }
