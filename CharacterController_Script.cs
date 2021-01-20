@@ -15,6 +15,10 @@ public class CharacterController_Script : MonoBehaviour
     [SerializeField]
     private Text textLabel;
 
+    private void Awake()
+    {
+        ChangeHitPoint();
+    }
     private void Update()
     {
         if (Input.GetKey(KeyCode.W))
