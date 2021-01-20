@@ -2,22 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ItemSlotScript : MonoBehaviour, IDropHandler
 {
     [SerializeField]
-    private ESlotType slotType;
-    private enum ESlotType
+    public ESlotType SlotType;
+    public enum ESlotType
     {
         all, sword, body, helmet
+    }
+    [SerializeField]
+    public Sprite[] ImageSlotType;
+
+    private void Awake()
+    {
+        if (SlotType != ESlotType.all)
+        {
+            
+        }
     }
     public void OnDrop(PointerEventData eventData)
     {
         if ((eventData.pointerDrag != null) && (eventData.pointerDrag.transform.parent != transform))
         {
-            if (eventData.pointerDrag.GetComponent<ItemScript>().ItemType == ESlotType.all)
+            if (SlotType != ESlotType.all)
             {
-
+                if (!Equals(SlotType.ToString(), eventData.pointerDrag.GetComponent<ItemScript>().ItemType.ToString()))
+                {
+                    return;
+                }
             }
             if (transform.childCount > 0)
             {
