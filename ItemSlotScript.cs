@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 
 public class ItemSlotScript : MonoBehaviour, IDropHandler
 {
-
     public void OnDrop(PointerEventData eventData)
     {
         if ((eventData.pointerDrag != null) && (eventData.pointerDrag.transform.parent != transform))
