@@ -18,7 +18,6 @@ public class ItemUsed_Script : ItemScript, IUsed, IBaffDamage, IHeiling
             Debug.Log(itemParent.gameObject.name + " лишен умения наносить урон");
         }
     }
-
     public void Heiling()
     {
         if (itemParent.GetComponent<MonoBehaviour>().GetType().GetProperty("HitPoint") != null)
