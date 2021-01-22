@@ -17,7 +17,7 @@ public class ItemScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     {
         all, sword, body, helmet
     }
-    private void Awake()
+    protected void Awake()
     {
         if (itemName != "") { gameObject.name = itemName; } else { Debug.LogWarning("itemName = null"); }
         if (description != "") { transform.GetChild(0).GetChild(0).GetComponent<Text>().text = description; } else { Debug.LogWarning("description = null"); }
@@ -48,7 +48,7 @@ public class ItemScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         transform.GetChild(1).gameObject.SetActive(false);
     }
 
-    private IEnumerator SlowShow()
+    protected IEnumerator SlowShow()
     {
         yield return new WaitForSeconds(1);
         transform.GetChild(0).gameObject.SetActive(true);
