@@ -10,7 +10,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     public ESlotType SlotType;
     public enum ESlotType
     {
-        all, sword, body, helmet
+        all, sword, body, helmet, ring, boots, hardword, Konsuella, sopojki, zone
     }
     [SerializeField]
     public Sprite[] ImageSlotType;
