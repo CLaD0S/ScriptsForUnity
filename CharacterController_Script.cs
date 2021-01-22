@@ -15,6 +15,11 @@ public class CharacterController_Script : MonoBehaviour
     [SerializeField]
     private Text textLabel;
 
+    public int HitPoint
+    {
+        get => _hitPoint;
+        set => _hitPoint = value;
+    }
     private void Awake()
     {
         ChangeHitPoint();
@@ -41,6 +46,7 @@ public class CharacterController_Script : MonoBehaviour
 
     public void ChangeHitPoint()
     {
+        //transform.parent.parent.parent
         textLabel.text = _hitPoint.ToString();
     }
 }

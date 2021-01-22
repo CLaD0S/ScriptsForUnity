@@ -5,8 +5,11 @@ using UnityEngine.UI;
 
 public class ItemScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
+    [Header("Поля базового класса")]
     [SerializeField]
     protected GameObject itemForWorld;
+    [SerializeField]
+    protected GameObject itemParent;
     [SerializeField]
     protected string itemName;
     [SerializeField]
@@ -35,19 +38,16 @@ public class ItemScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         transform.GetComponent<Image>().raycastTarget = true;
         transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
     }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         StartCoroutine("SlowShow");
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         StopCoroutine("SlowShow");
         transform.GetChild(0).gameObject.SetActive(false);
         transform.GetChild(1).gameObject.SetActive(false);
     }
-
     protected IEnumerator SlowShow()
     {
         yield return new WaitForSeconds(1);
@@ -58,6 +58,7 @@ public class ItemScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         if (eventData.button.ToString() != "Left")
         {
             transform.GetChild(1).gameObject.SetActive(true);
+            GetComponent<ItemUsed_Script>().Useding(itemParent);
         }
     }
 }
