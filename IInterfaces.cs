@@ -8,6 +8,10 @@ namespace IInterfaces
     {
         void Timing();
     }
+    interface IHitPoint
+    {
+        void HitPoint();
+    }
     interface IHeiling
     {
         void Heiling();
