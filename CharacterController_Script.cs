@@ -1,3 +1,4 @@
+using IInterfaces;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ public class CharacterController_Script : MonoBehaviour
 {
     [Header("Характеристики здоровья")]
     [SerializeField]
-    private int _hitPoint;
+    private float _hitPoint;
     [SerializeField]
     private int _maxHitPoint;
     [SerializeField]
@@ -15,7 +16,20 @@ public class CharacterController_Script : MonoBehaviour
     [SerializeField]
     private Text textLabel;
 
-    public int HitPoint
+    [SerializeField]
+    private int _strong;
+    [SerializeField]
+    private Text textStrong;
+    [SerializeField]
+    private int _agility;
+    [SerializeField]
+    private Text textAgility;
+    [SerializeField]
+    private int _intelekt;
+    [SerializeField]
+    private Text textIntelekt;
+
+    public float HitPoint
     {
         get => _hitPoint;
         set => _hitPoint = value;
@@ -44,9 +58,9 @@ public class CharacterController_Script : MonoBehaviour
         }
     }
 
-    public void ChangeHitPoint()
+    public void ChangeHitPoint(float hit = 0)
     {
-        //transform.parent.parent.parent
+        HitPoint += hit;
         textLabel.text = _hitPoint.ToString();
     }
 }
