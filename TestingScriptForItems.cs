@@ -12,8 +12,9 @@ public class TestingScriptForItems : MonoBehaviour, IHeiling, ITiming
 
     private void Awake()
     {
-        power = 3;
-        time = 5;
+        //image = GetComponent<Image>().
+        //power = 3;
+        //time = 5;
     }
     private void Update()
     {
