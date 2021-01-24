@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class CharacterController_Script : MonoBehaviour
 {
+    #region
     [Header("Характеристики здоровья")]
     [SerializeField]
     private float _hitPoint;
@@ -15,17 +16,23 @@ public class CharacterController_Script : MonoBehaviour
     private int _regenHitPoint;
     [SerializeField]
     private Text textLabel;
-
+    #endregion
     [SerializeField]
     private int _strong;
+    [SerializeField]
+    private int baseStrong;
     [SerializeField]
     private Text textStrong;
     [SerializeField]
     private int _agility;
     [SerializeField]
+    private int baseAgility;
+    [SerializeField]
     private Text textAgility;
     [SerializeField]
     private int _intelekt;
+    [SerializeField]
+    private int baseIntelekt;
     [SerializeField]
     private Text textIntelekt;
 
@@ -37,6 +44,7 @@ public class CharacterController_Script : MonoBehaviour
     private void Awake()
     {
         ChangeHitPoint();
+        ChangeState();
     }
     private void Update()
     {
@@ -57,10 +65,15 @@ public class CharacterController_Script : MonoBehaviour
             GetComponent<Rigidbody2D>().AddForce(Vector2.right);
         }
     }
-
+    public void ChangeState()
+    {
+        textStrong.text = "Сила :" + _strong.ToString();
+        textAgility.text = "Ловкость :" + _agility.ToString();
+        textIntelekt.text = "Интеллект :" + _intelekt.ToString();
+    }
     public void ChangeHitPoint(float hit = 0)
     {
         HitPoint += hit;
-        textLabel.text = _hitPoint.ToString();
+        textLabel.text = "Здоровье :" + _hitPoint.ToString();
     }
 }
