@@ -6,14 +6,24 @@ using UnityEngine.UI;
 
 public class ItemSlotScript : MonoBehaviour, IDropHandler
 {
-    [SerializeField]
-    public ESlotType SlotType;
+    [SerializeField] public ESlotType SlotType;
     public enum ESlotType
     {
-        all, sword, body, helmet, ring, boots, hardword, Konsuella, sopojki, zone
+        all,
+        helmet,
+        scapular,
+        necklace,
+        bracers,
+        gloves,
+        cuirass,
+        cloak,
+        leggings,
+        boots,
+        ring,
+        sword,
+        shield
     }
-    [SerializeField]
-    public Sprite[] ImageSlotType;
+    [SerializeField] public Sprite[] ImageSlotType;
 
     private void Awake()
     {

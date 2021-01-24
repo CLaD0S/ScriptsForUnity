@@ -20,7 +20,19 @@ public class ItemScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public EItemType ItemType;
     public enum EItemType
     {
-        all, sword, body, helmet, ring, boots, hardword, Konsuella, sopojki, zone
+        all,
+        helmet,
+        scapular,
+        necklace,
+        bracers,
+        gloves,
+        cuirass,
+        cloak,
+        leggings,
+        boots,
+        ring,
+        sword,
+        shield
     }
     protected void Awake()
     {
@@ -31,10 +43,6 @@ public class ItemScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnBeginDrag(PointerEventData eventData)
     {
         transform.GetComponent<Image>().raycastTarget = false;
-    }
-    public void OnDrag(PointerEventData eventData)
-    {
-        transform.GetComponent<RectTransform>().anchoredPosition += eventData.delta;
         for (int i = 0; i <= InventorySetPanel.transform.childCount - 1; i++)
         {
             if (InventorySetPanel.transform.GetChild(i).GetComponent<ItemSlotScript>() != null)
@@ -49,7 +57,10 @@ public class ItemScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             }
         }
     }
-
+    public void OnDrag(PointerEventData eventData)
+    {
+        transform.GetComponent<RectTransform>().anchoredPosition += eventData.delta;
+    }
     public void OnEndDrag(PointerEventData eventData)
     {
         transform.GetComponent<Image>().raycastTarget = true;
