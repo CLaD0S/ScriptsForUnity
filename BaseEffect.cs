@@ -5,14 +5,21 @@ namespace Effects
 {
     public abstract class BaseEffect : MonoBehaviour
     {
+        [SerializeField] protected string title;
+        [SerializeField] protected string longTitle;
+        [SerializeField] protected Sprite spriteEffect;
+        public Sprite SpriteEffect
+        {
+            get => spriteEffect;
+        }
+        private void Awake()
+        {
 
+        }
     }
     public class Healing : BaseEffect
     {
         [SerializeField] private float thisHeal;
-        [SerializeField] private string title;
-        [SerializeField] private string longTitle;
-        [SerializeField] private Sprite SpriteEffect;
         [SerializeField] private float time;
         [SerializeField] private float deltaTime = 0;
         [SerializeField] private const float stepTime = 1f;
@@ -25,39 +32,84 @@ namespace Effects
             this.thisHeal = 3f;
             this.title = "Healing";
             this.longTitle = "Восстановление здоровья";
-            this.SpriteEffect = default;
+            this.spriteEffect = default;
             this.time = 5f;
         }
-        private void FixedUpdate()
+        private void Step()
         {
-            deltaTime += Time.deltaTime;
-            if (deltaTime >= stepTime)
+            if (time > 0f)
             {
-                if (time >= 0f)
-                {
-                    time -= stepTime;
-                    Debug.Log(gameObject.name + " получает лечение в размере " + thisHeal);
-                    deltaTime = 0f;
-                }
-                else
-                {
-                    Destroy(this);
-                }
+                Debug.Log(GetComponent<MonoBehaviour>().GetType() + " получает лечение в размере " + thisHeal);
             }
+            else
+            {
+                Destroy(this);
+            }
+            time -= stepTime;
         }
-
         private void Start()
         {
             StartCoroutine("ChangeColor");
         }
-
         private IEnumerator ChangeColor()
         {
             while (true)
             {
-                yield return new WaitForSeconds(1);
+                Step();
+                yield return new WaitForSeconds(stepTime / 2);
                 transform.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0);
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(stepTime / 2);
+                transform.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            StopCoroutine("ChangeColor");
+        }
+    }
+    public class Damaging : BaseEffect
+    {
+        [SerializeField] private float thisDamage;
+        [SerializeField] private float time;
+        [SerializeField] private float deltaTime = 0;
+        [SerializeField] private const float stepTime = 1f;
+        public float ThisDamage
+        {
+            get => thisDamage;
+        }
+        public void Awake()
+        {
+            this.thisDamage = 2f;
+            base.title = "Damaging";
+            this.longTitle = "Получение урона";
+            this.spriteEffect = default;
+            this.time = 4f;
+        }
+        private void Step()
+        {
+            if (time > 0f)
+            {
+                Debug.Log(gameObject.name + " получает урон в размере " + thisDamage);
+            }
+            else
+            {
+                Destroy(this);
+            }
+            time -= stepTime;
+        }
+        private void Start()
+        {
+            StartCoroutine("ChangeColor");
+        }
+        private IEnumerator ChangeColor()
+        {
+            while (true)
+            {
+                Step();
+                yield return new WaitForSeconds(stepTime / 2);
+                transform.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
+                yield return new WaitForSeconds(stepTime / 2);
                 transform.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
             }
         }
