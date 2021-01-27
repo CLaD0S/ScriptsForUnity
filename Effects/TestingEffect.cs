@@ -8,6 +8,7 @@ public class Healing : BaseEffect
     [SerializeField] private float time;
     [SerializeField] private float deltaTime = 0;
     [SerializeField] private const float stepTime = 1f;
+    //[SerializeField] private Component StatusScript;
     public float ThisHeal
     {
         get => thisHeal;
@@ -17,23 +18,25 @@ public class Healing : BaseEffect
         this.thisHeal = 3f;
         this.title = "Healing";
         this.longTitle = "Восстановление здоровья";
-        this.spriteEffect = default;
+        this.spriteEffect = transform.parent.GetComponent<SpriteRenderer>() != null ? transform.parent.GetComponent<SpriteRenderer>().sprite : default;
         this.time = 5f;
     }
     private void Step()
     {
         if (time > 0f)
         {
+            transform.parent.GetComponent<CharacterController_Script>().HitPoint += thisHeal;
             Debug.Log(GetComponent<MonoBehaviour>().GetType() + " получает лечение в размере " + thisHeal);
         }
         else
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         time -= stepTime;
     }
     private void Start()
     {
+        //StatusScript = transform.parent.GetComponent<StatusScript>();
         StartCoroutine("ChangeColor");
     }
     private IEnumerator ChangeColor()
