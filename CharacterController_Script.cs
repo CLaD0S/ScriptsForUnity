@@ -6,40 +6,31 @@ using UnityEngine.UI;
 
 public class CharacterController_Script : MonoBehaviour
 {
-    #region
+    #region Характеристики здоровья
     [Header("Характеристики здоровья")]
-    [SerializeField]
-    private float _hitPoint;
-    [SerializeField]
-    private int _maxHitPoint;
-    [SerializeField]
-    private int _regenHitPoint;
-    [SerializeField]
-    private Text textLabel;
+    [SerializeField] private float _hitPoint;
+    [SerializeField] private int _maxHitPoint;
+    [SerializeField] private int _regenHitPoint;
+    [SerializeField] private Text textLabel;
     #endregion
-    [SerializeField]
-    private int _strong;
-    [SerializeField]
-    private int baseStrong;
-    [SerializeField]
-    private Text textStrong;
-    [SerializeField]
-    private int _agility;
-    [SerializeField]
-    private int baseAgility;
-    [SerializeField]
-    private Text textAgility;
-    [SerializeField]
-    private int _intelekt;
-    [SerializeField]
-    private int baseIntelekt;
-    [SerializeField]
-    private Text textIntelekt;
-
+    [SerializeField] private int _strong;
+    [SerializeField] private int baseStrong;
+    [SerializeField] private Text textStrong;
+    [SerializeField] private int _agility;
+    [SerializeField] private int baseAgility;
+    [SerializeField] private Text textAgility;
+    [SerializeField] private int _intelekt;
+    [SerializeField] private int baseIntelekt;
+    [SerializeField] private Text textIntelekt;
+    [SerializeField] private Slider slider;
     public float HitPoint
     {
         get => _hitPoint;
-        set => _hitPoint = value;
+        set
+        {
+            _hitPoint = value;
+            ChangeHitPoint();
+        }
     }
     private void Awake()
     {
@@ -71,9 +62,9 @@ public class CharacterController_Script : MonoBehaviour
         //textAgility.text = "Ловкость :" + _agility.ToString();
         //textIntelekt.text = "Интеллект :" + _intelekt.ToString();
     }
-    public void ChangeHitPoint(float hit = 0)
+    public void ChangeHitPoint()
     {
-        HitPoint += hit;
         textLabel.text = "Здоровье :" + _hitPoint.ToString();
+        slider.value = _hitPoint;
     }
 }
