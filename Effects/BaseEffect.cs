@@ -8,9 +8,14 @@ namespace Effects
         [SerializeField] protected string title;
         [SerializeField] protected string longTitle;
         [SerializeField] protected Sprite spriteEffect;
+        public string Title
+        {
+            get => title;
+        }
         public Sprite SpriteEffect
         {
             get => spriteEffect;
+            set => spriteEffect = value;
         }
         private void Awake()
         {
@@ -32,7 +37,7 @@ namespace Effects
             this.thisHeal = 3f;
             this.title = "Healing";
             this.longTitle = "Восстановление здоровья";
-            this.spriteEffect = default;
+            this.spriteEffect = transform.parent.GetComponent<SpriteRenderer>() != null ? transform.parent.GetComponent<SpriteRenderer>().sprite : default;
             this.time = 5f;
         }
         private void Step()
@@ -53,13 +58,16 @@ namespace Effects
         }
         private IEnumerator ChangeColor()
         {
+            Debug.Log(transform.name);
+            Debug.Log(transform.parent.name);
+            SpriteRenderer spriteParent = transform.parent.GetComponent<SpriteRenderer>();
             while (true)
             {
                 Step();
                 yield return new WaitForSeconds(stepTime / 2);
-                transform.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0);
+                spriteParent.color = new Color(0, 1, 0);
                 yield return new WaitForSeconds(stepTime / 2);
-                transform.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+                spriteParent.color = new Color(1, 1, 1);
             }
         }
 
