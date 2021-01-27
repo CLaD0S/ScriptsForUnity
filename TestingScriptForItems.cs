@@ -29,7 +29,7 @@ public class TestingScriptForItems : MonoBehaviour, IHeiling, ITiming
     }
     public void Heiling()
     {
-        GetComponent<CharacterController_Script>().ChangeHitPoint(power);
+        GetComponent<CharacterController_Script>().ChangeHitPoint();
     }
     public void Timing()
     {
