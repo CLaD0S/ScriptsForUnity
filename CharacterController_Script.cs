@@ -50,26 +50,26 @@ public class CharacterController_Script : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-            GetComponent<Rigidbody2D>().AddForce(Vector2.up);
+            transform.position += Vector3.up / 100;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            GetComponent<Rigidbody2D>().AddForce(Vector2.down);
+            transform.position += Vector3.down / 100;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            GetComponent<Rigidbody2D>().AddForce(Vector2.left);
+            transform.position += Vector3.left / 100;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            GetComponent<Rigidbody2D>().AddForce(Vector2.right);
+            transform.position += Vector3.right / 100;
         }
     }
     public void ChangeState()
     {
-        textStrong.text = "Сила :" + _strong.ToString();
-        textAgility.text = "Ловкость :" + _agility.ToString();
-        textIntelekt.text = "Интеллект :" + _intelekt.ToString();
+        //textStrong.text = "Сила :" + _strong.ToString();
+        //textAgility.text = "Ловкость :" + _agility.ToString();
+        //textIntelekt.text = "Интеллект :" + _intelekt.ToString();
     }
     public void ChangeHitPoint(float hit = 0)
     {
