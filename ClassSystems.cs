@@ -1,24 +1,34 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClassSystems
 {
-    public class HealSystem : MonoBehaviour
+    public class HealSystem
     {
         [SerializeField] private float heal;
         [SerializeField] private float maxHeal;
         [SerializeField] private float regenHeal;
-
-        float dtime = 0;
-        public GameObject panel;
+        private GameObject panel;
+        private MonoBehaviour mono;
+        private IEnumerator coroutine;
         public float Heal
         {
             get => heal;
             set
             {
-                heal = value;
-                ChangeHeal();
+                if (value > 0)
+                {
+                    heal = value;
+                    ChangeHeal();
+                }
+                else
+                {
+                    heal = 0;
+                    UpdateState();
+                    Debug.Log(mono.name + " погиб");
+                }
             }
         }
         public float MaxHeal
@@ -39,33 +49,57 @@ namespace ClassSystems
                 ChangeRegenHeal();
             }
         }
-        public HealSystem(float heal = 100f, float maxHeal = 100f, float regenHeal = 1f)
+        public HealSystem(MonoBehaviour mono, float heal = 50f, float maxHeal = 100f, float regenHeal = 1f)
         {
             this.heal = heal;
             this.maxHeal = maxHeal;
             this.regenHeal = regenHeal;
+            panel = GameObject.Find("/Canvas/Slider");
+            this.mono = mono;
+            this.coroutine = Regeneration();
+            if (heal < maxHeal)
+            {
+                ChangeHeal();
+            }
         }
         private void ChangeHeal()
         {
-            panel.GetComponent<Slider>().value = heal;
-            if (heal < maxHeal) Regeneration();
+            UpdateState();
+            if (heal < maxHeal)
+            {
+                mono.StopCoroutine(coroutine);
+                coroutine = Regeneration();
+                mono.StartCoroutine(coroutine);
+            }
         }
         private void ChangeMaxHeal()
         {
-            panel.GetComponent<Slider>().maxValue = maxHeal;
+            UpdateState();
         }
         private void ChangeRegenHeal()
         {
 
         }
+        private void UpdateState()
+        {
+            panel.GetComponent<Slider>().value = heal;
+            panel.GetComponent<Slider>().maxValue = maxHeal;
+            panel.GetComponentInChildren<Text>().text = "Здоровье :" + heal.ToString("#.##") + "/" + maxHeal.ToString("#.##");
+        }
         private IEnumerator Regeneration()
         {
             do
             {
-                yield return new WaitForSeconds(1 / 5);
-                heal += regenHeal;
+                yield return new WaitForSeconds(1f / 5f);
+                heal += regenHeal / 5f;
+                UpdateState();
             } while (heal < maxHeal);
             heal = maxHeal;
+            UpdateState();
+        }
+        public override string ToString()
+        {
+            return "Тек. хп=" + heal + "\nТек. маx.хп=" + maxHeal + "\nТек. регенер=" + regenHeal;
         }
     }
 }
