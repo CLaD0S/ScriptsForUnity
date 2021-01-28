@@ -1,3 +1,4 @@
+using ClassSystems;
 using IInterfaces;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,10 +10,13 @@ public class CharacterController_Script : MonoBehaviour
     #region Характеристики здоровья
     [Header("Характеристики здоровья")]
     [SerializeField] private float _hitPoint;
-    [SerializeField] private int _maxHitPoint;
-    [SerializeField] private int _regenHitPoint;
+    [SerializeField] private float _maxHitPoint;
+    [SerializeField] private float _regenHitPoint;
     [SerializeField] private Text textLabel;
+    [Header("Новая система здоровья")]
+    [SerializeReference] public HealSystem heal;
     #endregion
+    [Header("Остальные характеристики")]
     [SerializeField] private int _strong;
     [SerializeField] private int baseStrong;
     [SerializeField] private Text textStrong;
@@ -29,13 +33,14 @@ public class CharacterController_Script : MonoBehaviour
         set
         {
             _hitPoint = value;
-            ChangeHitPoint();
         }
     }
     private void Awake()
     {
-        ChangeHitPoint();
         ChangeState();
+        heal = new HealSystem(this);
+        Debug.Log(heal.ToString());
+        ChangeHitPoint();
     }
     private void Update()
     {
@@ -55,6 +60,10 @@ public class CharacterController_Script : MonoBehaviour
         {
             transform.position += Vector3.right / 100;
         }
+        if (Input.GetKey(KeyCode.Q))
+        {
+            heal.Heal -= 10;
+        }
     }
     public void ChangeState()
     {
@@ -64,7 +73,7 @@ public class CharacterController_Script : MonoBehaviour
     }
     public void ChangeHitPoint()
     {
-        textLabel.text = "Здоровье :" + _hitPoint.ToString();
-        slider.value = _hitPoint;
+        textLabel.text = "Здоровье :" + heal.Heal;
+        //slider.value = _hitPoint;
     }
 }
