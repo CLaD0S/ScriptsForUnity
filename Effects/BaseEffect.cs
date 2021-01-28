@@ -6,6 +6,7 @@ namespace Effects
     public abstract class BaseEffect : MonoBehaviour
     {
         [SerializeField] protected string title;
+        [TextArea(2, 8)]
         [SerializeField] protected string longTitle;
         [SerializeField] protected Sprite spriteEffect;
         public string Title

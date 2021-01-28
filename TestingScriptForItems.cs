@@ -9,7 +9,6 @@ public class TestingScriptForItems : MonoBehaviour, IHeiling, ITiming
     public int power;
     public float time;
     private float timer = .0f;
-
     private void Awake()
     {
         //image = GetComponent<Image>().

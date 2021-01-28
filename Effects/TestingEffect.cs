@@ -25,7 +25,7 @@ public class Healing : BaseEffect
     {
         if (time > 0f)
         {
-            transform.parent.GetComponent<CharacterController_Script>().HitPoint += thisHeal;
+            transform.parent.GetComponent<CharacterController_Script>().heal.Heal += thisHeal;
             Debug.Log(GetComponent<MonoBehaviour>().GetType() + " получает лечение в размере " + thisHeal);
         }
         else
@@ -51,7 +51,6 @@ public class Healing : BaseEffect
             spriteParent.color = new Color(1, 1, 1);
         }
     }
-
     private void OnDestroy()
     {
         StopCoroutine("ChangeColor");
