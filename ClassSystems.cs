@@ -12,7 +12,7 @@ namespace ClassSystems
         [SerializeField] private float regenHeal;
         private GameObject panel;
         private MonoBehaviour mono;
-        private IEnumerator coroutine;
+        private IEnumerator coroutineRegeneration;
         public float Heal
         {
             get => heal;
@@ -56,20 +56,15 @@ namespace ClassSystems
             this.regenHeal = regenHeal;
             panel = GameObject.Find("/Canvas/Slider");
             this.mono = mono;
-            this.coroutine = Regeneration();
-            if (heal < maxHeal)
-            {
-                ChangeHeal();
-            }
+            this.coroutineRegeneration = Regeneration();
+            mono.StartCoroutine(coroutineRegeneration);
         }
         private void ChangeHeal()
         {
             UpdateState();
-            if (heal < maxHeal)
+            if ((heal < maxHeal) && (!coroutineRegeneration.MoveNext()))
             {
-                mono.StopCoroutine(coroutine);
-                coroutine = Regeneration();
-                mono.StartCoroutine(coroutine);
+                mono.StartCoroutine(coroutineRegeneration);
             }
         }
         private void ChangeMaxHeal()
@@ -88,14 +83,18 @@ namespace ClassSystems
         }
         private IEnumerator Regeneration()
         {
-            do
+            while (true)
             {
-                yield return new WaitForSeconds(1f / 5f);
-                heal += regenHeal / 5f;
+                do
+                {
+                    yield return new WaitForSeconds(1f / 5f);
+                    heal += regenHeal / 5f;
+                    UpdateState();
+                } while (heal < maxHeal);
+                heal = maxHeal;
                 UpdateState();
-            } while (heal < maxHeal);
-            heal = maxHeal;
-            UpdateState();
+                mono.StopCoroutine(coroutineRegeneration);
+            }
         }
         public override string ToString()
         {
