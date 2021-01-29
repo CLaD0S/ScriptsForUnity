@@ -24,7 +24,7 @@ namespace ClassSystems
                 if (value > 0)
                 {
                     lastChangePositiv = value >= points;
-                    points = value;
+                    points = value > maxPoints ? maxPoints : value;
                     ChangePoints();
                 }
                 else
@@ -53,7 +53,7 @@ namespace ClassSystems
                 ChangeRegenPoints();
             }
         }
-        public PointsSystem(MonoBehaviour mono, float points = 50f, float maxPoints = 100f, float regenPoints = 1f)
+        public PointsSystem(MonoBehaviour mono, float points = 22f, float maxPoints = 222f, float regenPoints = 13f)
         {
             this.points = points;
             this.maxPoints = maxPoints;
@@ -66,8 +66,10 @@ namespace ClassSystems
         private void ChangePoints()
         {
             UpdateState();
-            if ((points < maxPoints) && (!coroutineRegeneration.MoveNext()))
+            if (points < maxPoints)
             {
+                mono.StopCoroutine(coroutineRegeneration);
+                coroutineRegeneration = Regeneration();
                 mono.StartCoroutine(coroutineRegeneration);
             }
         }
@@ -87,19 +89,15 @@ namespace ClassSystems
         }
         private IEnumerator Regeneration()
         {
-            while (true)
+            if (!lastChangePositiv) yield return new WaitForSeconds(delay);
+            do
             {
-                if (!lastChangePositiv) yield return new WaitForSeconds(delay);
-                do
-                {
-                    yield return new WaitForSeconds(periodicity);
-                    points += regenPoints;
-                    UpdateState();
-                } while (points < maxPoints);
-                points = maxPoints;
+                yield return new WaitForSeconds(periodicity);
+                points += regenPoints;
                 UpdateState();
-                mono.StopCoroutine(coroutineRegeneration);
-            }
+            } while (points < maxPoints);
+            points = maxPoints;
+            UpdateState();
         }
         public override string ToString()
         {
