@@ -14,7 +14,7 @@ public class CharacterController_Script : MonoBehaviour
     [SerializeField] private float _regenHitPoint;
     [SerializeField] private Text textLabel;
     [Header("Новая система здоровья")]
-    [SerializeReference] public HealSystem heal;
+    [SerializeReference] public PointsSystem heal;
     #endregion
     [Header("Остальные характеристики")]
     [SerializeField] private int _strong;
@@ -38,7 +38,7 @@ public class CharacterController_Script : MonoBehaviour
     private void Awake()
     {
         ChangeState();
-        heal = new HealSystem(this);
+        heal = new PointsSystem(this);
         Debug.Log(heal.ToString());
         ChangeHitPoint();
     }
@@ -60,9 +60,9 @@ public class CharacterController_Script : MonoBehaviour
         {
             transform.position += Vector3.right / 100;
         }
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            heal.Heal -= 10;
+            heal.Points -= 10;
         }
     }
     public void ChangeState()
@@ -73,7 +73,7 @@ public class CharacterController_Script : MonoBehaviour
     }
     public void ChangeHitPoint()
     {
-        textLabel.text = "Здоровье :" + heal.Heal;
+        textLabel.text = "Здоровье :" + heal.Points;
         //slider.value = _hitPoint;
     }
 }

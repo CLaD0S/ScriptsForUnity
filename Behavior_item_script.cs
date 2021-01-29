@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Behavior_item_script : MonoBehaviour
 {
-    [SerializeField] private BaseEffect effect;
+    [SerializeReference] private BaseEffect effect;
     private void Awake()
     {
         effect = gameObject.AddComponent<Healing>();

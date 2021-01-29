@@ -25,7 +25,7 @@ public class Healing : BaseEffect
     {
         if (time > 0f)
         {
-            transform.parent.GetComponent<CharacterController_Script>().heal.Heal += thisHeal;
+            transform.parent.GetComponent<CharacterController_Script>().heal.Points += thisHeal;
             Debug.Log(GetComponent<MonoBehaviour>().GetType() + " получает лечение в размере " + thisHeal);
         }
         else
