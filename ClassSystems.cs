@@ -1,19 +1,19 @@
-using System;
 using System.Collections;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
 
 namespace ClassSystems
 {
     public class PointsSystem
     {
+        [SerializeField] private string title;
         [SerializeField] private float points;
         [SerializeField] private float maxPoints;
         [SerializeField] private float regenPoints;
-        [SerializeField] private float delay = 2.0f;
-        [SerializeField] private float periodicity = .2f;
+        [SerializeField] private float delay;
+        [SerializeField] private float periodicity;
         [SerializeField] private bool lastChangePositiv = true;
-        private GameObject panel;
+        public GameObject panel;
         private MonoBehaviour mono;
         private IEnumerator coroutineRegeneration;
         public float Points
@@ -53,16 +53,28 @@ namespace ClassSystems
                 ChangeRegenPoints();
             }
         }
-        public PointsSystem(MonoBehaviour mono, float points = 22f, float maxPoints = 222f, float regenPoints = 13f)
+        #region конструктор
+        public PointsSystem(
+            MonoBehaviour mono,
+            string title = "Status",
+            float points = 100f,
+            float maxPoints = 100f,
+            float regenPoints = 1f,
+            float delay = 2.0f,
+            float periodicity = .2f)
         {
+            this.title = title;
             this.points = points;
             this.maxPoints = maxPoints;
             this.regenPoints = regenPoints;
-            panel = GameObject.Find("/Canvas/Slider");
             this.mono = mono;
+            this.delay = delay;
+            this.periodicity = periodicity;
             this.coroutineRegeneration = Regeneration();
+            UpdateState();
             mono.StartCoroutine(coroutineRegeneration);
         }
+        #endregion
         private void ChangePoints()
         {
             UpdateState();
@@ -83,9 +95,12 @@ namespace ClassSystems
         }
         private void UpdateState()
         {
-            panel.GetComponent<Slider>().value = points;
-            panel.GetComponent<Slider>().maxValue = maxPoints;
-            panel.GetComponentInChildren<Text>().text = "Здоровье :" + points.ToString("#.##") + "/" + maxPoints.ToString("#.##");
+            if (panel != default)
+            {
+                panel.GetComponent<Slider>().value = points;
+                panel.GetComponent<Slider>().maxValue = maxPoints;
+                panel.GetComponentInChildren<Text>().text = title + " :" + points.ToString("#.##") + "/" + maxPoints.ToString("#.##");
+            }
         }
         private IEnumerator Regeneration()
         {
