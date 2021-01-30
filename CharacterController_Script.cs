@@ -1,4 +1,5 @@
 using ClassSystems;
+using Effects;
 using IInterfaces;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,14 +8,15 @@ using UnityEngine.UI;
 
 public class CharacterController_Script : MonoBehaviour
 {
-    #region Характеристики здоровья
-    [Header("Характеристики здоровья")]
-    [SerializeField] private float _hitPoint;
-    [SerializeField] private float _maxHitPoint;
-    [SerializeField] private float _regenHitPoint;
-    [SerializeField] private Text textLabel;
-    [Header("Новая система здоровья")]
+    [Header("NewBaseEffect")]
+    [SerializeReference] public List<NewBaseEffect> effects = new List<NewBaseEffect>();
+    #region Характеристики
+    [Header("Здоровья")]
     [SerializeReference] public PointsSystem heal;
+    [Header("Энергия")]
+    [SerializeReference] public PointsSystem mana;
+    [Header("Выносливость")]
+    [SerializeReference] public PointsSystem stamina;
     #endregion
     [Header("Остальные характеристики")]
     [SerializeField] private int _strong;
@@ -27,42 +29,62 @@ public class CharacterController_Script : MonoBehaviour
     [SerializeField] private int baseIntelekt;
     [SerializeField] private Text textIntelekt;
     [SerializeField] private Slider slider;
-    public float HitPoint
-    {
-        get => _hitPoint;
-        set
-        {
-            _hitPoint = value;
-        }
-    }
     private void Awake()
     {
         ChangeState();
-        heal = new PointsSystem(this);
-        Debug.Log(heal.ToString());
+        heal = new PointsSystem(this, "Здоровье")
+        {
+            panel = GameObject.Find("HealBar")
+        };
+        mana = new PointsSystem(this, "Энергия", 100f, 190f, 3f, 1f, 1f)
+        {
+            panel = GameObject.Find("ManaBar")
+        };
+        stamina = new PointsSystem(this, "Выносливость", 80f, 100f, 4f, 1f, 0.5f)
+        {
+            panel = GameObject.Find("StaminaBar")
+        };
         ChangeHitPoint();
     }
     private void Update()
     {
-        if (Input.GetKey(KeyCode.W))
+        if ((Input.GetKey(KeyCode.W)) ||
+            (Input.GetKey(KeyCode.S)) ||
+            (Input.GetKey(KeyCode.A)) ||
+            (Input.GetKey(KeyCode.D)))
         {
-            transform.position += Vector3.up / 100;
+            if (Input.GetKey(KeyCode.W))
+            {
+                transform.position += Vector3.up / 100;
+                GetComponent<Animator>().SetBool("IsIdle", false);
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                transform.position += Vector3.down / 100;
+                GetComponent<Animator>().SetBool("IsIdle", false);
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                transform.position += Vector3.left / 100;
+                GetComponent<Animator>().SetBool("IsIdle", false);
+                if (!GetComponent<SpriteRenderer>().flipX) { GetComponent<SpriteRenderer>().flipX = true; };
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                transform.position += Vector3.right / 100;
+                GetComponent<Animator>().SetBool("IsIdle", false);
+                if (GetComponent<SpriteRenderer>().flipX) { GetComponent<SpriteRenderer>().flipX = false; };
+            }
         }
-        if (Input.GetKey(KeyCode.S))
+        else
         {
-            transform.position += Vector3.down / 100;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.position += Vector3.left / 100;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.position += Vector3.right / 100;
+            GetComponent<Animator>().SetBool("IsIdle", true);
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            heal.Points -= 10;
+            heal.Points -= heal.MaxPoints * 0.1f;
+            mana.Points -= mana.MaxPoints * 0.1f;
+            stamina.Points -= stamina.MaxPoints * 0.1f;
         }
     }
     public void ChangeState()
@@ -73,7 +95,6 @@ public class CharacterController_Script : MonoBehaviour
     }
     public void ChangeHitPoint()
     {
-        textLabel.text = "Здоровье :" + heal.Points;
         //slider.value = _hitPoint;
     }
 }
