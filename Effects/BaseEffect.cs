@@ -81,7 +81,7 @@ namespace Effects
     {
         [SerializeField] private float thisDamage;
         [SerializeField] private float time;
-        [SerializeField] private float deltaTime = 0;
+        [SerializeField] private float deltaTime = 0f;
         [SerializeField] private const float stepTime = 1f;
         public float ThisDamage
         {
